@@ -1,0 +1,81 @@
+name: 'Icon badge'
+description: 'Add badge or shield to your icons'
+author: 'damienaicheh'
+inputs:
+  dark:
+    description: 'Dark badge'
+    required: false
+    default: false
+  alpha:
+    description: 'Uses the word alpha instead of beta'
+    required: false
+    default: false
+  alpha-channel:
+    description: 'Keeps/Adds an alpha channel to the icons'
+    required: false
+    default: false
+  custom-overlay:
+    description: 'Overlay a custom image on your icon'
+    required: false
+  no-badge:
+    description: 'Removes the beta badge'
+    required: false
+    default: false
+  badge-gravity:
+    description: 'Position of the badge on icon. Options: NorthWest North NorthEast West Center East SouthWest South SouthEast. Default: SouthEast'
+    required: false
+  shield:
+    description: 'Overlay a shield from shields.io on your icon, eg: Version-1.2-green'
+    required: false
+  shield-parameters:
+    description: 'Parameters of the shield image. String of key-value pairs separated by ampersand as specified on shields.io, eg: colorA=abcdef&style=flat'
+    required: false
+  shield-io-timeout:
+    description: 'The timeout in seconds we should wait to get a response from shields.io. Default to 10 seconds.'
+    required: false
+  shield-geometry:
+    description: 'Position of shield on icon, relative to gravity e.g, +50+10%'
+    required: false
+  shield-gravity:
+    description: 'Position of shield on icon. Default: North'
+    required: false
+  shield-scale:
+    description: 'Shield image scale factor; e.g, 0.5, 2, etc. - works with --shield_no_resize'
+    required: false
+  shield-no-resize:
+    description: 'Shield image will no longer be resized to aspect fill the full icon. Instead it will only be shrunk to not exceed the icon graphic'
+    required: false
+  images-path:
+    description: 'Glob pattern for finding image files. Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}. Should start with /'
+    required: false
+  grayscale:
+    description: 'Whether making icons to grayscale'
+    required: false
+    default: false
+  custom-command:
+    description: 'Your custom badge tool command'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.dark }}
+    - ${{ inputs.alpha }}
+    - ${{ inputs.alpha-channel }}
+    - ${{ inputs.custom-overlay }}
+    - ${{ inputs.no-badge }}
+    - ${{ inputs.badge-gravity }}
+    - ${{ inputs.shield }}
+    - ${{ inputs.shield-gravity }}
+    - ${{ inputs.shield-parameters }}
+    - ${{ inputs.shield-geometry }}
+    - ${{ inputs.shield-io-timeout }}
+    - ${{ inputs.shield-scale }}
+    - ${{ inputs.shield-no-resize }}
+    - ${{ inputs.images-path }}
+    - ${{ inputs.grayscale }}
+    - ${{ inputs.custom-command }}
+branding:
+  icon: 'image'
+  color: 'red'

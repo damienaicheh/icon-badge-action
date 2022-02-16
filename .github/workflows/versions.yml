@@ -1,0 +1,181 @@
+on:
+  workflow_dispatch:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    branches:
+      - main
+      - releases/*
+    paths-ignore:
+      - '**.md'
+
+jobs:
+  apply_badge_icon:
+    runs-on: ubuntu-latest
+    name: Add badge to images
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create sets of images
+        run: |
+          cp demo-icon.png icon-default-options.png
+          cp demo-icon.png icon-with-dark-badge.png
+          cp demo-icon.png icon-alpha.png
+          cp demo-icon.png icon-alpha-channel.png
+          cp demo-icon.png icon-no-badge.png
+          cp demo-icon.png icon-west.png
+          cp demo-icon.png icon-shield-no-badge.png
+          cp demo-icon.png icon-shield-no-resize-no-badge.png
+          cp demo-icon.png icon-shield-options.png
+          cp demo-icon.png icon-grayscale.png
+          cp demo-icon.png icon-shield-south.png
+          cp demo-icon.png icon-shield-south-with-light-badge.png
+          cp demo-icon.png icon-shield-with-parameters.png
+          cp demo-icon.png icon-shield-with-timeout.png
+          cp demo-icon.png icon-with-custom-overlay.png
+          cp demo-icon.png icon-custom-command.png
+
+          mkdir all
+          cp demo-icon.png all/icon-1.png
+          cp demo-icon.png all/icon-2.png
+
+          ls -R
+        working-directory: samples-images
+
+      - name: Edit multiple images inside one folder
+        uses: ./
+        with:
+          images-path: '/samples-images/all/*.png'
+
+      - name: Options by default
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-default-options.png'
+
+      - name: With dark badge
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-with-dark-badge.png'
+          dark: true
+
+      - name: With alpha instead of beta
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-alpha.png'
+          alpha: true
+
+      - name: With alpha channel
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-alpha-channel.png'
+          alpha-channel: true
+
+      - name: With no badge
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-no-badge.png'
+          no-badge: true
+
+      - name: With badge at West
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-west.png'
+          badge-gravity: West
+
+      - name: With shield and no badge
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-no-badge.png'
+          shield: '2.3-4567-red'
+          no-badge: true
+
+      - name: With shield with no resize and no badge
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-no-resize-no-badge.png'
+          shield: '2.3-4567-green'
+          no-badge: true
+          shield-no-resize: true
+
+      - name: With shield options
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-options.png'
+          shield: '2.3-4567-blue'
+          dark: true
+          shield-geometry: +0+25%
+          shield-scale: 0.75
+
+      - name: With grayscale
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-grayscale.png'
+          shield: '2.3-4567-green'
+          dark: true
+          shield-geometry: +0+25%
+          shield-scale: 0.75
+          grayscale: true
+
+      - name: With shield gravity to south
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-south.png'
+          shield: '2.3-4567-green'
+          dark: true
+          shield-geometry: +0+25%
+          shield-scale: 0.75
+          shield-gravity: South
+
+      - name: With shield gravity to south with light badge
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-south-with-light-badge.png'
+          shield: '2.3-4567-green'
+          shield-geometry: +0+25%
+          shield-scale: 0.75
+          shield-gravity: South
+
+      - name: With shield parameters
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-with-parameters.png'
+          shield: '2.3-4567-green'
+          dark: true
+          shield-geometry: +0+25%
+          shield-scale: 0.75
+          shield-gravity: SouthEast
+          shield-parameters: colorA=abcdef&style=flat
+
+      - name: With shield timeout
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-shield-with-timeout.png'
+          shield: '2.3-4567-green'
+          dark: true
+          shield-geometry: +0+25%
+          shield-scale: 0.75
+          shield-gravity: NorthEast
+          shield-parameters: colorA=defabc&style=flat
+          shield-io-timeout: 20
+
+      - name: With custom overlay
+        uses: ./
+        with:
+          images-path: '/samples-images/icon-with-custom-overlay.png'
+          shield: '2.3-4567-purple'
+          dark: true
+          custom-overlay: samples-images/custom-overlay.png
+
+      - name: With custom command
+        uses: ./
+        with:
+          custom-command: --grayscale --shield "Version-0.0.3-blue" --dark --glob /samples-images/icon-custom-command.png
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifacts
+          path: samples-images
