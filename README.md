@@ -20,7 +20,7 @@ And you will get this banner on your icon:
 More details are available in my blob post:
 
 ##### English version :
-[]()
+[https://damienaicheh.github.io/github/actions/2022/02/16/add-badge-icons-using-github-actions-en](https://damienaicheh.github.io/github/actions/2022/02/16/add-badge-icons-using-github-actions-en.html)
 
 ##### French version :
-[]()
+[https://damienaicheh.github.io/github/actions/2022/02/16/add-badge-icons-using-github-actions-fr](https://damienaicheh.github.io/github/actions/2022/02/16/add-badge-icons-using-github-actions-fr.html)
